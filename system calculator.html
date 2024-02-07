@@ -1,0 +1,210 @@
+
+<!-- saved from url=(0093)file:///C:/Users/JAI/OneDrive/Documents/HTML%20tasks/HTML/calculator/system%20calculator.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            #x{
+                width: 40%;
+                height: 10%;
+                color: black;
+                 border: 1px solid black;
+                 border-radius: 10px;
+                 box-sizing: border-box;
+                 font-size:20px ;
+                 font-weight:normal;
+                 text-align: right;
+                 background-color: darkseagreen;
+            }
+            #y{
+                height: 70%;
+                width: 8%;
+                background-color: white;
+                font-size: 8px;
+                box-sizing: border-box;
+                border-radius: 5px;
+                border-color:seagreen;
+                margin-right: 2%;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body style="background-color: azure;">
+        <div><input id="x"></div>
+        <div style="height: 10%;width: 80%;margin: 2%;">
+            <button id="y" onclick="btn(&#39;%&#39;)"> %</button>
+            <button id="y" onclick="CE()"> CE</button>
+            <button id="y" onclick="C()">C</button>
+            <button id="y" onclick="X()"> X</button>
+        </div>
+        <div style="height: 10%;width: 80%;margin: 2%; ">
+            <button id="y" onclick="rec(&#39;1/x&#39;)"> 1/x</button>
+            <button id="y" onclick="sq()"> x^2</button>
+            <button id="y" onclick="sqrt()">2√x</button>
+            <button id="y" onclick="btn(&#39;/&#39;)"> /</button>
+        </div>
+        <div style="height: 10%;width: 80%;margin: 2%;">
+            <button id="y" onclick="btn(&#39;7&#39;)"> 7</button>
+            <button id="y" onclick="btn(&#39;8&#39;)"> 8</button>
+            <button id="y" onclick="btn(&#39;9&#39;)">9</button>
+            <button id="y" onclick="btn(&#39;*&#39;)"> *</button>
+        </div>
+        <div style="height: 10%;width: 80%;margin: 2%; ">
+            <button id="y" onclick="btn(&#39;4&#39;)">4 </button>
+            <button id="y" onclick="btn(&#39;5&#39;)"> 5</button>
+            <button id="y" onclick="btn(&#39;6&#39;)">6</button>
+            <button id="y" onclick="btn(&#39;-&#39;)"> -</button>
+        </div>
+        <div style="height: 10%;width: 80%;margin: 2%; ">
+            <button id="y" onclick="btn(&#39;1&#39;)">1 </button>
+            <button id="y" onclick="btn(&#39;2&#39;)"> 2</button>
+            <button id="y" onclick="btn(&#39;3&#39;)">3</button>
+            <button id="y" onclick="btn(&#39;+&#39;)">+</button>
+        </div>
+        <div style="height: 10%;width: 80%;margin: 2%; ">
+            <button id="y" onclick="sign(&#39;+/-&#39;)">+/- </button>
+            <button id="y" onclick="btn(&#39;0&#39;)">0 </button>
+            <button id="y" onclick="btn(&#39;.&#39;)">.</button>
+            <button id="y" style="background-color: aquamarine;" onclick="e()">=</button>
+        </div>
+    <script>
+        function btn(a){
+            document.getElementById('x').value+=a;
+        }
+        function C(){
+            document.getElementById('x').value='';
+        }
+        function CE(){
+            document.getElementById('x').value='';
+        }
+        function X(){
+            var X=document.getElementById('x').value;
+            document.getElementById('x').value=X.slice(0,X.length-1);
+        }
+        function sqrt(){
+            var s=document.getElementById('x').value;
+            document.getElementById('x').value=Math.sqrt(s);
+        }
+        function sq(){
+            var sq=document.getElementById('x').value;
+            document.getElementById('x').value=sq*sq;
+        }
+        function rec(){
+            var rec=document.getElementById('x').value;
+            document.getElementById('x').value=1/rec;
+        }
+        function sign(){
+            var sign=document.getElementById('x').value;
+            var count=0;
+
+        for(let i=0;i<sign.length;i++){
+            if(sign[i]=='+'||sign[i]=='-'||sign[i]=='*'||sign[i]=='/'){
+                count++;
+                 }
+            }
+            if(count<2){
+                document.getElementById('x').value=-sign;
+            }
+        }
+        function e()
+        {
+            var a = document.getElementById("x").value;
+            var i,count=0;
+            const index =[];
+            const numbers =[];
+        for(i=0;i<a.length;i++)
+            {
+                if(a[i]=='+'||a[i]=='-'||a[i]=='*'||a[i]=='/'||a[i]=='%')
+                {
+                    count+=1;
+                    index.push(i);
+                } 
+            }
+            var j=0;
+            var num='';
+            const res=[];
+            var k=0;
+            for (i=0;i<a.length;i++)
+            {
+                if (i==0 && (a[0]=='-'||a[0]=='+'))
+                {
+                    res[0]=0;
+                    j+=1;
+                    k+=1;
+                    continue;
+                }
+                if(j==index.length)
+                   {
+                    num+=a[i];
+                    if(i==a.length-1)
+                    {
+                        res[k]=parseFloat(num);
+                        break;
+                    }
+                   }
+                else if(i==index[j])
+                   {
+                    j++;
+                    res[k]=parseFloat(num);
+                    num='';
+                    k++;
+                   }
+                   else{
+                    num+=a[i];
+                   }
+            }
+            for (i=0;i<index.length;i++)
+            {
+                var j=0;
+                if(a[index[i]]=='/')
+                   {
+                    res[i]=res[i]/res[i+1];
+                    res.splice(i+1,1);
+                    index.splice(i,1);
+                   }
+            }
+        for(i=0;i<index.length;i++)
+        {
+            var j=0;
+            if(a[index[i]]=='*')
+            {
+                res[i]=res[i]*res[i+1];
+                res.splice(i+1,1);
+                index.splice(i,1);
+            }
+        }
+        for(i=0;i<index.length;i++)
+            {
+                var j=0;
+                if(a[index[i]]=='+')
+                {
+                    res[i]=res[i]+res[i+1];
+                    res.splice(i+1,1);
+                    index.splice(i,1);
+                }
+            }
+        
+        for(i=0;i<index.length;i++)
+            {
+                var j=0;
+                if(a[index[i]]=='-')
+                {
+                    res[i]=res[i]+res[i+1];
+                    res.splice(i+1,1);
+                    index.splice(i,1);
+                }
+            }
+        
+        for(i=0;i<index.length;i++)
+            {
+                var j=0;
+                if(a[index[i]]=='%')
+                {
+                    res[i]=(res[i]/100)*res[i+1];
+                    res.splice(i+1,1);
+                    index.splice(i,1);
+                }
+            }
+            document.getElementById('x').value=res;
+        }
+    </script>
+    
+</body></html>
